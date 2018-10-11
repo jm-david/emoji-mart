@@ -19,7 +19,9 @@
     "url": "https://github.com/jm-david/emoji-mart-vue/issues"
   },
   "homepage": "https://github.com/jm-david/emoji-mart-vue",
-  "dependencies": {},
+  "dependencies": {
+    "vuebar": "0.0.20"
+  },
   "peerDependencies": {
     "vue": "^2.0.0"
   },
