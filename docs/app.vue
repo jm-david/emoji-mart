@@ -18,18 +18,11 @@
       :custom="custom"
       :emoji="emoji"
       :title="title"
+      :showSearch="false"
+      :showPreview="false"
     />
   </div>
 
-  <div class="row-small">
-    <iframe
-      src="https://ghbtns.com/github-btn.html?user=jm-david&repo=emoji-mart-vue&type=star&count=true"
-      frameBorder="0"
-      scrolling="0"
-      width="90px"
-      height="20px"
-    ></iframe>
-  </div>
 </div>
 
 </template>

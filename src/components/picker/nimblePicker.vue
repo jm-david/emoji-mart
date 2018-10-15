@@ -26,29 +26,32 @@
     @search="onSearch"
   />
 
-  <div class="emoji-mart-scroll" ref="scroll" @scroll="onScroll">
-    <category
-      v-show="searchEmojis"
-      :data="parsedData"
-      :i18n="mergedI18n"
-      id="search"
-      name="Search"
-      :emojis="searchEmojis"
-      :emoji-props="emojiProps"
-    />
-    <category
-      v-for="category in filteredCategories"
-      v-show="!searchEmojis && (infiniteScroll || category == activeCategory)"
-      ref="categories"
-      :key="category.id"
-      :data="parsedData"
-      :i18n="mergedI18n"
-      :id="category.id"
-      :name="category.name"
-      :emojis="category.emojis"
-      :emoji-props="emojiProps"
-    />
+  <div v-bar>
+      <div class="emoji-mart-scroll" ref="scroll" @scroll="onScroll">
+        <category
+            v-show="searchEmojis"
+            :data="parsedData"
+            :i18n="mergedI18n"
+            id="search"
+            name="Search"
+            :emojis="searchEmojis"
+            :emoji-props="emojiProps"
+        />
+          <category
+              v-for="category in filteredCategories"
+              v-show="!searchEmojis && (infiniteScroll || category == activeCategory)"
+              ref="categories"
+              :key="category.id"
+              :data="parsedData"
+              :i18n="mergedI18n"
+              :id="category.id"
+              :name="category.name"
+              :emojis="category.emojis"
+              :emoji-props="emojiProps"
+          />
+      </div>
   </div>
+
 
   <div class="emoji-mart-bar" v-if="showPreview">
     <preview
@@ -309,6 +312,7 @@ export default {
 
 <style>
 
+
 .emoji-mart,
 .emoji-mart * {
   box-sizing: border-box;
@@ -365,5 +369,56 @@ export default {
   will-change: transform; /* avoids "repaints on scroll" in mobile Chrome */
   -webkit-overflow-scrolling: touch;
 }
+
+.emoji-mart /deep/ .vb > .vb-content {
+  /* needs to be important because inline style was overwriting */
+  height: calc(100% - 49px) !important;
+}
+
+.emoji-mart /deep/ .vb > .vb-dragger {
+  z-index: 5;
+  width: 9px;
+  right: 0;
+}
+
+.emoji-mart /deep/ .vb > .vb-dragger > .vb-dragger-styler {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: rotate3d(0,0,0,0);
+  transform: rotate3d(0,0,0,0);
+  -webkit-transition:
+      background-color 100ms ease-out,
+      margin 100ms ease-out,
+      height 100ms ease-out;
+  transition:
+      background-color 100ms ease-out,
+      margin 100ms ease-out,
+      height 100ms ease-out;
+  background-color: rgba(121, 122, 125,.1);
+  margin: 5px 5px 5px 0;
+  height: calc(100% - 10px);
+  display: block;
+}
+
+.emoji-mart /deep/ .vb.vb-scrolling-phantom > .vb-dragger > .vb-dragger-styler {
+  background-color: rgba(121, 122, 125,.7);
+}
+
+.emoji-mart /deep/ .vb > .vb-dragger:hover > .vb-dragger-styler {
+  background-color: rgba(121, 122, 125,.9);
+  margin: 0px;
+  height: 100%;
+}
+
+.emoji-mart /deep/ .vb.vb-dragging > .vb-dragger > .vb-dragger-styler {
+  background-color: rgba(121, 122, 125,.9);
+  margin: 0px;
+  height: 100%;
+}
+
+.emoji-mart /deep/ .vb.vb-dragging-phantom > .vb-dragger > .vb-dragger-styler {
+  background-color: rgba(121, 122, 125,.9);
+}
+
 
 </style>
