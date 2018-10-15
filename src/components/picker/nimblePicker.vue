@@ -334,6 +334,7 @@ export default {
   display: flex;
   flex-direction: column;
   height: 420px;
+  color: #222427;
   border: 1px solid #d9d9d9;
   border-radius: 5px;
   background: #fff;
