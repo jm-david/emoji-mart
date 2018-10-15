@@ -334,11 +334,9 @@ export default {
   display: flex;
   flex-direction: column;
   height: 420px;
-  color: white;
   border: 1px solid #d9d9d9;
   border-radius: 5px;
-  /*background: #fff;*/
-  background-color: #302f2f;
+  background: #fff;
 }
 
 .emoji-mart-bar {
@@ -379,7 +377,7 @@ export default {
 
 .emoji-mart /deep/ .vb > .vb-dragger {
   z-index: 5;
-  width: 12px;
+  width: 9px;
   right: 0;
 }
 
@@ -398,7 +396,6 @@ export default {
       height 100ms ease-out;
   background-color: rgba(121, 122, 125,.1);
   margin: 5px 5px 5px 0;
-  border-radius: 20px;
   height: calc(100% - 10px);
   display: block;
 }
