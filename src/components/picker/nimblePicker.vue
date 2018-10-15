@@ -326,7 +326,6 @@ export default {
 </style>
 
 <style scoped>
-/*@import "~@/scss/vuebar";*/
 
 .emoji-mart {
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
