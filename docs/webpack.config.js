@@ -1,7 +1,7 @@
 var path = require('path')
 var pack = require('../package.json')
 var webpack = require('webpack')
-
+var CopyWebpackPlugin = require('copy-webpack-plugin')
 var PROD = process.env.NODE_ENV === 'production'
 var TEST = process.env.NODE_ENV === 'test'
 
@@ -52,6 +52,9 @@ var config = {
     new webpack.DefinePlugin({
       EMOJI_DATASOURCE_VERSION: `'${pack.devDependencies['emoji-datasource']}'`,
     }),
+    new CopyWebpackPlugin([
+      'css/emoji-mart.css',
+    ])
   ],
 
   bail: true,
