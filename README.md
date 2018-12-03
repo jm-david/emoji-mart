@@ -15,6 +15,9 @@
 ```js
 import { Picker } from 'emoji-mart-vue'
 ```
+```css
+import 'emoji-mart-vue/css/emoji-mart.css'
+```
 
 ```html
 <picker set="emojione" />

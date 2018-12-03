@@ -25,17 +25,15 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-      mutableData: this.data.compressed ? uncompress(this.data) : this.data,
-    }
-  },
   computed: {
+    parsedData() {
+      return this.data.compressed ? uncompress(this.data) : this.data
+    },
     emojiData() {
-      return getData(this.emoji, this.skin, this.set, this.mutableData)
+      return getData(this.emoji, this.skin, this.set, this.parsedData)
     },
     sanitizedData() {
-      return getSanitizedData(this.emoji, this.skin, this.set, this.mutableData)
+      return getSanitizedData(this.emoji, this.skin, this.set, this.parsedData)
     },
     canRender() {
       return this.isCustom || this.isNative || this.hasEmoji || this.fallback
@@ -120,13 +118,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-
-.emoji-mart-emoji {
-  position: relative;
-  display: inline-block;
-  font-size: 0;
-}
-
-</style>
