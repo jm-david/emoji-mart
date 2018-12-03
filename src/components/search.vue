@@ -79,22 +79,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-
-.emoji-mart-search {
-  margin-top: 6px;
-  padding: 0 6px;
-}
-
-.emoji-mart-search input {
-  font-size: 16px;
-  display: block;
-  width: 100%;
-  padding: .2em .6em;
-  border-radius: 25px;
-  border: 1px solid #d9d9d9;
-  outline: 0;
-}
-
-</style>

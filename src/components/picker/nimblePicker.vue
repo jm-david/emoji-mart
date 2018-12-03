@@ -3,8 +3,8 @@
 <div class="emoji-mart" :style="customStyles">
   <div class="emoji-mart-bar" v-if="showCategories">
     <anchors
-      :data="mutableData"
-      :i18n="mutableI18n"
+      :data="parsedData"
+      :i18n="mergedI18n"
       :color="color"
       :categories="filteredCategories"
       :active-category="activeCategory"
@@ -15,8 +15,8 @@
   <search
     v-if="showSearch"
     ref="search"
-    :data="mutableData"
-    :i18n="mutableI18n"
+    :data="parsedData"
+    :i18n="mergedI18n"
     :emojis-to-show-filter="emojisToShowFilter"
     :include="include"
     :exclude="exclude"
@@ -29,8 +29,8 @@
   <div class="emoji-mart-scroll" ref="scroll" @scroll="onScroll">
     <category
       v-show="searchEmojis"
-      :data="mutableData"
-      :i18n="mutableI18n"
+      :data="parsedData"
+      :i18n="mergedI18n"
       id="search"
       name="Search"
       :emojis="searchEmojis"
@@ -41,8 +41,8 @@
       v-show="!searchEmojis && (infiniteScroll || category == activeCategory)"
       ref="categories"
       :key="category.id"
-      :data="mutableData"
-      :i18n="mutableI18n"
+      :data="parsedData"
+      :i18n="mergedI18n"
       :id="category.id"
       :name="category.name"
       :emojis="category.emojis"
@@ -52,7 +52,7 @@
 
   <div class="emoji-mart-bar" v-if="showPreview">
     <preview
-      :data="mutableData"
+      :data="parsedData"
       :title="title"
       :emoji="previewEmoji"
       :idle-emoji="emoji"
@@ -132,13 +132,11 @@ export default {
     }
 
     if (this.emojisToShowFilter) {
-      customEmojis = customEmojis.filter(e => this.emojisToShowFilter(this.mutableData.emojis[e] || e))
-      recentEmojis = recentEmojis.filter(e => this.emojisToShowFilter(this.mutableData.emojis[e] || e))
+      customEmojis = customEmojis.filter(e => this.emojisToShowFilter(this.parsedData.emojis[e] || e))
+      recentEmojis = recentEmojis.filter(e => this.emojisToShowFilter(this.parsedData.emojis[e] || e))
     }
 
     return {
-      mutableData: this.data.compressed ? uncompress(this.data) : this.data,
-      mutableI18n: deepMerge(I18N, this.i18n),
       activeSkin: this.skin || store.get('skin') || this.defaultSkin,
       categories: [],
       activeCategory: null,
@@ -149,6 +147,9 @@ export default {
     }
   },
   computed: {
+    parsedData() {
+      return this.data.compressed ? uncompress(this.data) : this.data
+    },
     customStyles() {
       return {
         width: this.calculateWidth + 'px',
@@ -186,20 +187,23 @@ export default {
 
         if (this.emojisToShowFilter) {
           hasEmojis = category.emojis.some((emoji) => {
-            return this.emojisToShowFilter(this.mutableData.emojis[emoji] || emoji)
+            return this.emojisToShowFilter(this.parsedData.emojis[emoji] || emoji)
           })
         }
 
         return isIncluded && !isExcluded && hasEmojis
       })
     },
+    mergedI18n() {
+      return deepMerge(I18N, this.i18n)
+    }
   },
   created() {
-    let categories = this.mutableData.categories.map(c => {
+    let categories = this.parsedData.categories.map(c => {
       let { id, name, emojis } = c
 
       if (this.emojisToShowFilter) {
-        emojis = c.emojis.filter(e => this.emojisToShowFilter(this.data.emojis[e] || e))
+        emojis = c.emojis.filter(e => this.emojisToShowFilter(this.parsedData.emojis[e] || e))
       }
 
       return { id, name, emojis }
@@ -302,59 +306,3 @@ export default {
 }
 
 </script>
-
-<style>
-
-.emoji-mart,
-.emoji-mart * {
-  box-sizing: border-box;
-  line-height: 1.15;
-}
-
-.emoji-mart .emoji-mart-emoji {
-  padding: 6px;
-}
-
-</style>
-
-<style scoped>
-
-.emoji-mart {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-  font-size: 16px;
-  display: flex;
-  flex-direction: column;
-  height: 420px;
-  color: #222427;
-  border: 1px solid #d9d9d9;
-  border-radius: 5px;
-  background: #fff;
-}
-
-.emoji-mart-bar {
-  border: 0 solid #d9d9d9;
-}
-
-.emoji-mart-bar:first-child {
-  border-bottom-width: 1px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-}
-
-.emoji-mart-bar:last-child {
-  border-top-width: 1px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
-.emoji-mart-scroll {
-  position: relative;
-  overflow-y: scroll;
-  flex: 1;
-  padding: 0 6px 6px 6px;
-  z-index: 0; /* Fix for rendering sticky positioned category labels on Chrome */
-  will-change: transform; /* avoids "repaints on scroll" in mobile Chrome */
-  -webkit-overflow-scrolling: touch;
-}
-
-</style>
