@@ -26,8 +26,12 @@ export default {
     }
   },
   data() {
+    if (this.data.compressed) {
+      uncompress(this.data)
+    }
+
     return {
-      mutableData: this.data.compressed ? uncompress(this.data) : this.data,
+      mutableData: this.data
     }
   },
   computed: {
