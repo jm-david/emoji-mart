@@ -28,7 +28,7 @@
 
   <div class="emoji-mart-scroll" ref="scroll" @scroll="onScroll">
     <category
-      v-show="searchEmojis"
+      v-if="searchEmojis"
       :data="mutableData"
       :i18n="mutableI18n"
       id="search"
@@ -38,7 +38,7 @@
     />
     <category
       v-for="category in filteredCategories"
-      v-show="!searchEmojis && (infiniteScroll || category == activeCategory)"
+      v-if="!searchEmojis && (infiniteScroll || category == activeCategory)"
       ref="categories"
       :key="category.id"
       :data="mutableData"
