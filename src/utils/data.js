@@ -101,6 +101,7 @@ const uncompress = (data) => {
 
     emoji.search = buildSearch(emoji)
   }
+  return data
 }
 
 module.exports = { buildSearch, compress, uncompress }
